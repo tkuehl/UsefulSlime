@@ -38,7 +38,7 @@ License: https://github.com/MincraftEinstein/UsefulSlime/blob/main/LICENSE.md
 [[dependencies.usefulslime]]
     modId = "commonnetworking"
     type = "required"
-    versionRange = "1.0.2-1.20.1"
+    versionRange = "1.0.4-1.20.1"
     ordering = "NONE"
     side = "BOTH"
 
