@@ -30,10 +30,10 @@
   "depends": {
     "fabricloader": ">=0.15",
     "fabric": ">=0.97.0",
-    "minecraft": "1.20.4",
+    "minecraft": "1.20.1",
     "java": ">=17",
     "forgeconfigapiport": ">=20.4.3",
-    "commonnetworking": ">=1.0.10-1.20.4"
+    "commonnetworking": ">=1.0.10-1.20.1"
   },
   "custom": {
     "catalogue": {

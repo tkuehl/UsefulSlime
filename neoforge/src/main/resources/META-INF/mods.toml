@@ -31,14 +31,14 @@ License: https://github.com/MincraftEinstein/UsefulSlime/blob/main/LICENSE.md
 [[dependencies.usefulslime]]
     modId = "minecraft"
     type = "required"
-    versionRange = "[1.20.4]"
+    versionRange = "[1.20.1]"
     ordering = "NONE"
     side = "BOTH"
 
 [[dependencies.usefulslime]]
     modId = "commonnetworking"
     type = "required"
-    versionRange = "1.0.10-1.20.4"
+    versionRange = "1.0.10-1.20.1"
     ordering = "NONE"
     side = "BOTH"
 

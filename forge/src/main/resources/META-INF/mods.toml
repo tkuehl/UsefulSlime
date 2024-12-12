@@ -31,7 +31,7 @@ License: https://github.com/MincraftEinstein/UsefulSlime/blob/main/LICENSE.md
 [[dependencies.usefulslime]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.20.4]"
+    versionRange="[1.20.1]"
     ordering="NONE"
     side="BOTH"
 
