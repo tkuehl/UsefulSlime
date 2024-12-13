@@ -37,9 +37,9 @@ public class SlimeSlingItem extends Item {
             return;
         }
 
-        if (!player.onGround()) {
-            return;
-        }
+        // if (!player.onGround()) {
+        //     return;
+        // }
 
         int timeUsed = getUseDuration(stack) - timeLeft;
         float i = timeUsed / 20F;
@@ -54,7 +54,7 @@ public class SlimeSlingItem extends Item {
         HitResult hitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
 
         if (hitResult != null) {
-            if (hitResult.getType() == HitResult.Type.BLOCK) {
+            // if (hitResult.getType() == HitResult.Type.BLOCK) {
                 Vec3 vec3 = player.getLookAngle().normalize();
 
                 if (player.getItemBySlot(EquipmentSlot.CHEST).is(ModItems.SLIME_CHESTPLATE.get()) && player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.SLIME_HELMET.get())) {
@@ -73,7 +73,7 @@ public class SlimeSlingItem extends Item {
                 BounceHandler.addBounceHandler(player);
                 EquipmentSlot slot = stack.equals(player.getItemBySlot(EquipmentSlot.OFFHAND)) ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
                 stack.hurtAndBreak(1, player, it -> it.broadcastBreakEvent(slot));
-            }
+            // }
 
             if (i > 1) {
                 player.playSound(SoundEvents.SLIME_JUMP_SMALL, 1, 1);
