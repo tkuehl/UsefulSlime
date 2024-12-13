@@ -8,10 +8,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -26,10 +23,10 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 @SuppressWarnings({"depercation"})
-public class SlimeSlingItem extends Item {
+public class SlimeSlingItem extends SwordItem {
 
     public SlimeSlingItem(Properties properties) {
-        super(properties);
+        super(Tiers.WOOD, 0, 0, properties);
     }
 
     @Override
@@ -136,6 +133,11 @@ public class SlimeSlingItem extends Item {
     @Override
     public boolean isEnchantable(ItemStack stack) {
         return true;
+    }
+
+    @Override
+    public int getEnchantmentValue() {
+        return 1;
     }
 
     @Nullable
