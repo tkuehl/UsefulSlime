@@ -69,7 +69,7 @@ public class SlimeSlingItem extends Item {
                     i /= 2;
                 }
 
-                player.push(vec3.x * -i, vec3.y * -i / 3, vec3.z * -i);
+                player.push(vec3.x * -i, vec3.y * -i, vec3.z * -i);
                 BounceHandler.addBounceHandler(player);
                 EquipmentSlot slot = stack.equals(player.getItemBySlot(EquipmentSlot.OFFHAND)) ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
                 stack.hurtAndBreak(1, player, it -> it.broadcastBreakEvent(slot));
