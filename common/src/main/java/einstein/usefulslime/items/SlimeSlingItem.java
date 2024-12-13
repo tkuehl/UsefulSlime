@@ -2,6 +2,7 @@ package einstein.usefulslime.items;
 
 import einstein.usefulslime.init.ModItems;
 import einstein.usefulslime.util.BounceHandler;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -11,13 +12,18 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import javax.annotation.Nullable;
+import java.util.Map;
 
 @SuppressWarnings({"depercation"})
 public class SlimeSlingItem extends Item {
@@ -40,15 +46,15 @@ public class SlimeSlingItem extends Item {
         }
 
         int timeUsed = getUseDuration(stack) - timeLeft;
-        float i = timeUsed / 20F;
-        i = (i * i + i * 2) / 3;
-        i *= 4;
+        float i = timeUsed / 24F;
+        i = (i * i + i * 2) * 1.33F;
 
-        if (i > 6) {
-            i = 6;
+        if (i > 4) {
+            i = 4;
         }
 
-        i *= 1;
+        i = i * 0.5F;
+        //player.displayClientMessage(Component.translatable("i: " + i), false);
 
         LivingEntity targetEntity = null;
         boolean invertDirection = false;
@@ -71,6 +77,11 @@ public class SlimeSlingItem extends Item {
                 i = -i;
             }
 
+            int knockBackLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.KNOCKBACK, stack);
+            if (knockBackLevel > 0) {
+                i = i * (1F + (knockBackLevel * knockBackLevel) / 1.75F);
+            }
+
             Vec3 vec3 = player.getLookAngle().normalize();
 
             if (player.getItemBySlot(EquipmentSlot.CHEST).is(ModItems.SLIME_CHESTPLATE.get()) && player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.SLIME_HELMET.get())) {
@@ -88,10 +99,21 @@ public class SlimeSlingItem extends Item {
             targetEntity.push(vec3.x * i, vec3.y * i, vec3.z * i);
             BounceHandler.addBounceHandler(targetEntity);
             EquipmentSlot slot = stack.equals(player.getItemBySlot(EquipmentSlot.OFFHAND)) ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
-            stack.hurtAndBreak(1, player, it -> it.broadcastBreakEvent(slot));
 
-            if (i > 1) {
+            int damageModifier = 1 + ((1 + knockBackLevel) * (1 + knockBackLevel));
+            int unbreakingLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack);
+            if (unbreakingLevel >= damageModifier) {
+                damageModifier = 1;
+            } else {
+                damageModifier = damageModifier - unbreakingLevel;
+            }
+
+            stack.hurtAndBreak(damageModifier, player, it -> it.broadcastBreakEvent(slot));
+
+            if (i > 0.5F && i < 2F) {
                 player.playSound(SoundEvents.SLIME_JUMP_SMALL, 1, 1);
+            } else if (i >= 2F) {
+                player.playSound(SoundEvents.SLIME_JUMP, 1, 1);
             }
         }
     }
@@ -109,6 +131,11 @@ public class SlimeSlingItem extends Item {
     @Override
     public boolean isValidRepairItem(ItemStack stack, ItemStack ingredientStack) {
         return ingredientStack.is(Items.SLIME_BALL);
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return true;
     }
 
     @Nullable
