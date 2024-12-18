@@ -56,7 +56,7 @@ public class SlimeSlingItem extends SwordItem {
         LivingEntity targetEntity = null;
         boolean invertDirection = false;
 
-        Entity nearestEntity = getEntityLookedAt(level, player, 5);
+        Entity nearestEntity = getEntityLookedAt(level, player, 7);
         if (nearestEntity != null) {
             if ((nearestEntity instanceof LivingEntity hitEntity)) {
                 targetEntity = hitEntity;
@@ -153,6 +153,15 @@ public class SlimeSlingItem extends SwordItem {
                 eyePosition.x,
                 eyePosition.y,
                 eyePosition.z );
-        return nearestEntity;
+        Entity nearestPlayer = level.getNearestEntity(level.getEntitiesOfClass(Player.class, boundingBox, e -> e != player),
+                targetingConditions,
+                player,
+                eyePosition.x,
+                eyePosition.y,
+                eyePosition.z );
+        if (nearestPlayer != null)
+            return nearestPlayer;
+        else
+            return nearestEntity;
     }
 }
